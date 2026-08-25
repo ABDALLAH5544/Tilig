@@ -3,111 +3,395 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إعدادات الحساب - ربط التليجرام</title>
+    <title>منصة مدار - مركز ربط التليجرام</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        body { font-family: sans-serif; padding: 20px; background: #f4f6f8; }
-        .card { max-width: 400px; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 14px; }
-        .form-group input { width: 100%; padding: 8px 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
-        .btn { width: 100%; padding: 10px; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; margin-top: 10px; }
-        .btn-link { background: #229ED9; color: #fff; }
-        .btn-unlink { background: #e11d48; color: #fff; }
-        .status { margin-top: 15px; font-weight: bold; }
-        .status.linked { color: #16a34a; }
-        .status.unlinked { color: #dc2626; }
-        .generated-code { font-size: 12px; color: #666; margin-top: 5px; }
+        :root {
+            --primary: #0088cc;
+            --primary-dark: #006699;
+            --accent: #6366f1;
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.12);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', sans-serif;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* Container & Glassmorphism Card */
+        .wrapper {
+            width: 100%;
+            max-width: 480px;
+            position: relative;
+        }
+
+        .glow-effect {
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 200px;
+            height: 200px;
+            background: var(--primary);
+            filter: blur(120px);
+            opacity: 0.5;
+            z-index: 0;
+            border-radius: 50%;
+        }
+
+        .card {
+            position: relative;
+            z-index: 1;
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 32px 28px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        /* Header UI */
+        .brand-logo {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 32px;
+            color: #fff;
+            box-shadow: 0 10px 25px rgba(0, 136, 204, 0.4);
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 28px;
+            line-height: 1.5;
+        }
+
+        /* Form Inputs */
+        .input-group {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 14px 44px 14px 16px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .input-field:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(0, 136, 204, 0.15);
+        }
+
+        /* Dynamic Badge Code Preview */
+        .code-preview {
+            margin-top: 8px;
+            font-size: 0.8rem;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+        }
+
+        /* Status Widget */
+        .status-box {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-align: right;
+        }
+
+        .status-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .status-box.unlinked .status-icon {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--danger);
+        }
+
+        .status-box.linked .status-icon {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+        }
+
+        .status-info h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+
+        .status-info p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Action Buttons */
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .btn-telegram {
+            background: linear-gradient(135deg, #0088cc, #005580);
+            color: #fff;
+        }
+
+        .btn-telegram:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 136, 204, 0.4);
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-danger:hover {
+            background: var(--danger);
+            color: #fff;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* Loader Animation */
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 480px) {
+            .card {
+                padding: 24px 18px;
+            }
+            h2 {
+                font-size: 1.4rem;
+            }
+        }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <h3>ربط حساب التليجرام</h3>
-    <p>أدخل اسمك ليصلك كود خاص ويتم ربطه بحساب التليجرام.</p>
-    
-    <!-- حقل إدخال الاسم -->
-    <div class="form-group" id="nameInputGroup">
-        <label for="userName">اسم المستخدم:</label>
-        <input type="text" id="userName" placeholder="أدخل اسمك هنا (مثال: أحمد)" oninput="updateUserCode()">
-        <div id="codePreview" class="generated-code"></div>
-    </div>
+<div class="wrapper">
+    <div class="glow-effect"></div>
+    <div class="card">
+        
+        <!-- Logo Header -->
+        <div class="brand-logo">
+            <i class="fa-brands fa-telegram"></i>
+        </div>
+        <h2>ربط التليجرام الفوري</h2>
+        <p class="subtitle">ربط حسابك بـ منصة مدار ليصلك الإشعار والإنذار فوراً</p>
 
-    <div id="statusBox" class="status unlinked">يرجى كتابة الاسم أولاً...</div>
-    
-    <div id="actionArea">
-        <button class="btn btn-link" onclick="startLinking()">ربط التليجرام الآن 🚀</button>
+        <!-- User Input -->
+        <div class="input-group">
+            <label>اسم المستخدم</label>
+            <div class="input-wrapper">
+                <i class="fa-solid fa-user"></i>
+                <input type="text" id="userName" class="input-field" placeholder="أدخل اسمك الكامل..." oninput="handleNameInput()">
+            </div>
+            <div id="codeBadge" class="code-preview" style="display: none;">
+                <i class="fa-solid fa-key"></i>
+                <span id="generatedCodeText"></span>
+            </div>
+        </div>
+
+        <!-- Dynamic Status Box -->
+        <div id="statusBox" class="status-box unlinked">
+            <div class="status-icon">
+                <i id="statusIcon" class="fa-solid fa-circle-xmark"></i>
+            </div>
+            <div class="status-info">
+                <h4 id="statusTitle">يرجى إدخال الاسم</h4>
+                <p id="statusDesc">اكتب اسمك للبدء في ربط التليجرام</p>
+            </div>
+        </div>
+
+        <!-- Action Area -->
+        <div id="actionArea">
+            <button id="mainBtn" class="btn btn-telegram" onclick="startLinkingProcess()" disabled>
+                <i class="fa-brands fa-telegram"></i>
+                <span>بدء عملية الربط</span>
+            </button>
+        </div>
+
     </div>
 </div>
 
 <script>
+    // الإعدادات الثابتة الخاصة بالـ API
     const CONFIG = {
-        baseUrl: "https://madar-telegram.vercel.app", // رابط الـ Vercel
-        apiKey: "MadarPlatformAPI_2026_X7kP4mN8qR2vT6" // مفتاح PLATFORM_API_KEY
+        baseUrl: "https://madar-telegram.vercel.app", // رابط مشروعك على Vercel
+        apiKey: "MadarPlatformAPI_2026_X7kP4mN8qR2vT6" // مفتاح API المعتمد
     };
 
     let currentUserCode = "";
-    let pollingInterval = null;
+    let pollingTimer = null;
 
-    // دالة لتوليد كود مميز يعتمد على الاسم المكتوب
+    // توليد كود فريد بناءً على الاسم المكتوب
     function generateCodeFromName(name) {
         if (!name || !name.trim()) return "";
-        
-        // تنظيف الاسم وتحويله لصيغة صحيحة
         const cleanName = name.trim().replace(/\s+/g, '-').toUpperCase();
         
-        // جلب كود عشوائي سابق من الـ Storage أو إنشاء رقم فريد جديد
-        let randomId = localStorage.getItem("user_random_suffix");
-        if (!randomId) {
-            randomId = Math.floor(1000 + Math.random() * 9000); // رقم عشوائي مكون من 4 أرقام
-            localStorage.setItem("user_random_suffix", randomId);
+        let suffix = localStorage.getItem("madar_user_suffix");
+        if (!suffix) {
+            suffix = Math.floor(1000 + Math.random() * 9000);
+            localStorage.setItem("madar_user_suffix", suffix);
         }
-
-        return `MADAR-${cleanName}-${randomId}`;
+        return `MADAR-${cleanName}-${suffix}`;
     }
 
-    // تحديث الكود وتحديث الواجهة عند كتابة الاسم
-    function updateUserCode() {
-        const nameInput = document.getElementById("userName").value;
-        currentUserCode = generateCodeFromName(nameInput);
+    // التفاعل عند إدخال الاسم
+    function handleNameInput() {
+        const nameVal = document.getElementById("userName").value;
+        const mainBtn = document.getElementById("mainBtn");
+        const codeBadge = document.getElementById("codeBadge");
         
-        const preview = document.getElementById("codePreview");
-        
+        currentUserCode = generateCodeFromName(nameVal);
+
         if (currentUserCode) {
-            preview.innerText = `الكود المولد للحساب: ${currentUserCode}`;
-            checkStatus(); // فحص إذا كان الكود المولد مربوطاً من قبل
+            document.getElementById("generatedCodeText").innerText = currentUserCode;
+            codeBadge.style.display = "flex";
+            mainBtn.disabled = false;
+            checkLinkStatus();
         } else {
-            preview.innerText = "";
-            document.getElementById("statusBox").innerText = "يرجى كتابة الاسم أولاً...";
+            codeBadge.style.display = "none";
+            mainBtn.disabled = true;
+            updateStatusUI("unlinked", "يرجى إدخال الاسم", "اكتب اسمك للبدء في ربط التليجرام");
         }
     }
 
-    // فحص حالة الربط للكود الحالي
-    async function checkStatus() {
+    // فحص حالة الربط الحالية من الـ API
+    async function checkLinkStatus() {
         if (!currentUserCode) return;
 
         try {
             const res = await fetch(`${CONFIG.baseUrl}/api/telegram/link-status?platform_user_code=${encodeURIComponent(currentUserCode)}`, {
-                method: "GET",
                 headers: { "Authorization": `Bearer ${CONFIG.apiKey}` }
             });
             const data = await res.json();
 
             if (data.linked) {
-                renderLinkedState(data.telegram_username);
+                const usernameText = data.telegram_username ? `@${data.telegram_username}` : "مجهول";
+                updateStatusUI("linked", "الحساب مربوط بنجاح", `مربوط بحساب: ${usernameText}`);
+                renderUnlinkButton();
             } else {
-                renderUnlinkedState();
+                updateStatusUI("unlinked", "الحساب غير مربوط", "اضغط على الزر بالأسفل لإنشاء رابط الربط");
+                renderLinkButton();
             }
         } catch (err) {
-            document.getElementById("statusBox").innerText = "خطأ في الاتصال بالخدمة";
+            console.error(err);
+            updateStatusUI("unlinked", "خطأ اتصال", "فشل الوصول لسيرفر الـ API");
         }
     }
 
-    // طلب إنشاء رابط الربط
-    async function startLinking() {
-        if (!currentUserCode) {
-            alert("يرجى كتابة اسمك أولاً!");
-            return;
-        }
+    // إنشاء رابط وتوجيه المستخدم للتليجرام
+    async function startLinkingProcess() {
+        if (!currentUserCode) return;
+        
+        const mainBtn = document.getElementById("mainBtn");
+        mainBtn.disabled = true;
+        mainBtn.innerHTML = `<div class="spinner"></div><span>جاري إنشاء الرابط...</span>`;
 
         try {
             const res = await fetch(`${CONFIG.baseUrl}/api/telegram/link-create`, {
@@ -118,35 +402,51 @@
                 },
                 body: JSON.stringify({ platform_user_code: currentUserCode })
             });
+
             const data = await res.json();
 
-            if (!data.success) {
-                if (data.error === "ALREADY_LINKED") {
-                    alert("هذا الحساب مربوط بالفعل!");
-                    renderLinkedState(data.telegram_username);
-                } else {
-                    alert("تعذر إنشاء الرابط: " + data.error);
-                }
-                return;
+            if (data.success && data.link_url) {
+                // فتح التليجرام
+                window.open(data.link_url, "_blank");
+
+                updateStatusUI("unlinked", "في انتظار إتمام الربط...", "اضغط Start / بدء داخل تطبيق التليجرام");
+                startPollingStatus();
+            } else if (data.error === "ALREADY_LINKED") {
+                alert("هذا الحساب مربوط بالفعل بتليجرام!");
+                checkLinkStatus();
+            } else {
+                alert("خطأ: " + (data.message || data.error));
+                checkLinkStatus();
             }
-
-            // فتح رابط تليجرام في نافذة جديدة
-            window.open(data.link_url, "_blank");
-
-            document.getElementById("statusBox").innerText = "⏳ في انتظار إتمام العملية داخل تليجرام...";
-            startPolling();
-
         } catch (err) {
-            alert("حدث خطأ أثناء الاتصال بالـ API");
+            alert("حدث خطأ في الاتصال بالشبكة!");
+            checkLinkStatus();
         }
     }
 
-    // فك الربط
-    async function unlinkAccount() {
-        if (!currentUserCode) return;
-        if (!confirm("هل أنت تأكد من فك الربط؟")) return;
+    // فك الربط + إرسال إشعار للبوت بالفك
+    async function unlinkProcess() {
+        if (!confirm("هل أنت متأكد من فك ربط حساب التليجرام؟")) return;
+
+        const mainBtn = document.getElementById("mainBtn");
+        mainBtn.disabled = true;
+        mainBtn.innerHTML = `<div class="spinner"></div><span>جاري فك الربط...</span>`;
 
         try {
+            // 1. أولاً إرسال رسالة للتليجرام لإبلاغ المستخدم بفك الربط قبل مسح بياناته
+            await fetch(`${CONFIG.baseUrl}/api/telegram/send`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${CONFIG.apiKey}`
+                },
+                body: JSON.stringify({
+                    platform_user_code: currentUserCode,
+                    message: "⚠️ تم فك ربط هذا الحساب بنجاح من منصة مدار. لن تصلك إشعارات إضافية هنا."
+                })
+            }).catch(e => console.log("Failed to send notice:", e));
+
+            // 2. إرسال طلب فك الربط لتصفير البيانات في Supabase
             const res = await fetch(`${CONFIG.baseUrl}/api/telegram/unlink`, {
                 method: "POST",
                 headers: {
@@ -155,51 +455,72 @@
                 },
                 body: JSON.stringify({ platform_user_code: currentUserCode })
             });
+
             const data = await res.json();
 
             if (data.success) {
-                alert("تم فك الربط بنجاح");
-                renderUnlinkedState();
+                alert("تم فك الربط بنجاح وتم إرسال إشعار تأكيد إلى التليجرام!");
+                checkLinkStatus();
+            } else {
+                alert("فشل فك الربط: " + data.error);
+                checkLinkStatus();
             }
+
         } catch (err) {
-            alert("فشل فك الربط");
+            alert("حدث خطأ أثناء فك الربط!");
+            checkLinkStatus();
         }
     }
 
-    // متابعة حالة الربط بشكل دوري
-    function startPolling() {
-        if (pollingInterval) clearInterval(pollingInterval);
+    // متابعة حالة الربط تلقائياً
+    function startPollingStatus() {
+        if (pollingTimer) clearInterval(pollingTimer);
         
-        pollingInterval = setInterval(async () => {
+        pollingTimer = setInterval(async () => {
             const res = await fetch(`${CONFIG.baseUrl}/api/telegram/link-status?platform_user_code=${encodeURIComponent(currentUserCode)}`, {
                 headers: { "Authorization": `Bearer ${CONFIG.apiKey}` }
             });
             const data = await res.json();
 
             if (data.linked) {
-                clearInterval(pollingInterval);
-                alert("✅ تم الربط بنجاح!");
-                renderLinkedState(data.telegram_username);
+                clearInterval(pollingTimer);
+                alert("🎉 تم ربط الحساب بنجاح!");
+                checkLinkStatus();
             }
         }, 3000);
     }
 
-    function renderLinkedState(username) {
-        const userText = username ? `@${username}` : "حسابك";
-        document.getElementById("statusBox").className = "status linked";
-        document.getElementById("statusBox").innerText = `🟢 الحساب مربوط بـ (${userText})`;
+    // تحديث عناصر واجهة حالة الربط
+    function updateStatusUI(type, title, desc) {
+        const statusBox = document.getElementById("statusBox");
+        const statusIcon = document.getElementById("statusIcon");
         
+        statusBox.className = `status-box ${type}`;
+        document.getElementById("statusTitle").innerText = title;
+        document.getElementById("statusDesc").innerText = desc;
+
+        if (type === "linked") {
+            statusIcon.className = "fa-solid fa-circle-check";
+        } else {
+            statusIcon.className = "fa-solid fa-circle-xmark";
+        }
+    }
+
+    function renderLinkButton() {
         document.getElementById("actionArea").innerHTML = `
-            <button class="btn btn-unlink" onclick="unlinkAccount()">فك ربط التليجرام</button>
+            <button id="mainBtn" class="btn btn-telegram" onclick="startLinkingProcess()">
+                <i class="fa-brands fa-telegram"></i>
+                <span>ربط التليجرام الآن</span>
+            </button>
         `;
     }
 
-    function renderUnlinkedState() {
-        document.getElementById("statusBox").className = "status unlinked";
-        document.getElementById("statusBox").innerText = "🔴 الحساب غير مربوط";
-        
+    function renderUnlinkButton() {
         document.getElementById("actionArea").innerHTML = `
-            <button class="btn btn-link" onclick="startLinking()">ربط التليجرام الآن 🚀</button>
+            <button id="mainBtn" class="btn btn-danger" onclick="unlinkProcess()">
+                <i class="fa-solid fa-link-slash"></i>
+                <span>فك ربط التليجرام</span>
+            </button>
         `;
     }
 </script>
