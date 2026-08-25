@@ -1,858 +1,272 @@
-<!-- <!doctype html>
-<html lang="ar" dir="rtl">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>مَدار | MADAR — تعلّم. شارك. تطوّر.</title>
-    <meta name="description" content="منصة تعليم اجتماعية ذكية تجمع الطلاب، المدرسين، وأولياء الأمور في بيئة تفاعلية متطورة." />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <meta property="og:title" content="مَدار — MADAR" />
-    <meta property="og:description" content="منصة تعليم اجتماعية تجمع الطلاب والمدرسين وأولياء الأمور — تعلّم. شارك. تطوّر." />
-    <script type="module" crossorigin src="/assets/index-BGvU1fPi.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-C25sqgwN.css">
-  </head>
-  <body class="bg-[#f8fafc] text-slate-900 antialiased font-cairo selection:bg-blue-500 selection:text-white">
-    <div id="root"></div>
-  </body>
-</html>
--->
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#050816">
-<title>منصة مدار التعليمية | قيد التطوير</title>
-
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap');
-
-:root{
-  --bg:#050816;
-  --bg2:#081126;
-  --primary:#5b7cff;
-  --primary2:#8b5cf6;
-  --cyan:#22d3ee;
-  --text:#f8fafc;
-  --muted:#94a3b8;
-  --line:rgba(255,255,255,.09);
-  --glass:rgba(9,18,38,.68);
-}
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-html,body{
-  width:100%;
-  min-height:100%;
-}
-
-body{
-  font-family:"Cairo",sans-serif;
-  background:
-    radial-gradient(circle at 15% 15%,rgba(91,124,255,.16),transparent 30%),
-    radial-gradient(circle at 85% 80%,rgba(139,92,246,.13),transparent 30%),
-    var(--bg);
-  color:var(--text);
-  overflow-x:hidden;
-}
-
-/* =========================
-   BACKGROUND
-========================= */
-
-.background{
-  position:fixed;
-  inset:0;
-  overflow:hidden;
-  pointer-events:none;
-  z-index:0;
-}
-
-.grid{
-  position:absolute;
-  inset:-50%;
-  background-image:
-    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
-  background-size:55px 55px;
-  transform:perspective(600px) rotateX(60deg);
-  transform-origin:center;
-  opacity:.55;
-}
-
-.orb{
-  position:absolute;
-  border-radius:50%;
-  filter:blur(80px);
-  opacity:.45;
-  animation:orbFloat 10s ease-in-out infinite;
-}
-
-.orb.one{
-  width:420px;
-  height:420px;
-  background:#3157ff;
-  top:-180px;
-  right:-120px;
-}
-
-.orb.two{
-  width:350px;
-  height:350px;
-  background:#7028e4;
-  bottom:-170px;
-  left:-100px;
-  animation-delay:-4s;
-}
-
-.orb.three{
-  width:180px;
-  height:180px;
-  background:#0891b2;
-  top:42%;
-  left:10%;
-  filter:blur(100px);
-  animation-delay:-7s;
-}
-
-@keyframes orbFloat{
-  0%,100%{
-    transform:translate3d(0,0,0) scale(1);
-  }
-  50%{
-    transform:translate3d(25px,-30px,0) scale(1.08);
-  }
-}
-
-/* =========================
-   PARTICLES
-========================= */
-
-.particles{
-  position:absolute;
-  inset:0;
-}
-
-.particle{
-  position:absolute;
-  width:3px;
-  height:3px;
-  border-radius:50%;
-  background:#fff;
-  opacity:.35;
-  animation:particleMove linear infinite;
-}
-
-@keyframes particleMove{
-  from{
-    transform:translateY(110vh);
-    opacity:0;
-  }
-  15%{opacity:.4}
-  85%{opacity:.4}
-  to{
-    transform:translateY(-20vh);
-    opacity:0;
-  }
-}
-
-/* =========================
-   PAGE
-========================= */
-
-.page{
-  position:relative;
-  z-index:2;
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  padding:30px 18px;
-}
-
-.wrapper{
-  width:min(1050px,100%);
-}
-
-/* =========================
-   TOP BRAND
-========================= */
-
-.brand{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:13px;
-  margin-bottom:25px;
-  animation:fadeDown .8s ease both;
-}
-
-.brand-logo{
-  width:48px;
-  height:48px;
-  border-radius:15px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:24px;
-  font-weight:900;
-  color:white;
-  background:
-    linear-gradient(135deg,#5b7cff,#8b5cf6);
-  box-shadow:
-    0 10px 30px rgba(91,124,255,.3),
-    inset 0 1px rgba(255,255,255,.3);
-}
-
-.brand-name{
-  font-size:21px;
-  font-weight:800;
-  letter-spacing:-.5px;
-}
-
-.brand-name span{
-  color:#7f9cff;
-}
-
-/* =========================
-   MAIN CARD
-========================= */
-
-.card{
-  position:relative;
-  overflow:hidden;
-  border:1px solid var(--line);
-  border-radius:35px;
-  background:
-    linear-gradient(
-      145deg,
-      rgba(15,29,58,.86),
-      rgba(5,12,28,.78)
-    );
-  backdrop-filter:blur(25px);
-  -webkit-backdrop-filter:blur(25px);
-  box-shadow:
-    0 35px 100px rgba(0,0,0,.45),
-    inset 0 1px 0 rgba(255,255,255,.07);
-  padding:60px 65px;
-  animation:cardAppear 1s cubic-bezier(.16,1,.3,1) both;
-}
-
-.card::before{
-  content:"";
-  position:absolute;
-  width:500px;
-  height:500px;
-  top:-330px;
-  right:-200px;
-  border-radius:50%;
-  background:radial-gradient(
-    circle,
-    rgba(91,124,255,.18),
-    transparent 65%
-  );
-}
-
-.card::after{
-  content:"";
-  position:absolute;
-  width:400px;
-  height:400px;
-  bottom:-300px;
-  left:-180px;
-  border-radius:50%;
-  background:radial-gradient(
-    circle,
-    rgba(139,92,246,.14),
-    transparent 65%
-  );
-}
-
-@keyframes cardAppear{
-  from{
-    opacity:0;
-    transform:translateY(40px) scale(.96);
-  }
-  to{
-    opacity:1;
-    transform:none;
-  }
-}
-
-/* =========================
-   STATUS
-========================= */
-
-.status{
-  width:max-content;
-  max-width:100%;
-  margin:0 auto 34px;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:9px 16px;
-  border-radius:999px;
-  border:1px solid rgba(245,158,11,.2);
-  background:rgba(245,158,11,.07);
-  color:#fbbf24;
-  font-size:13px;
-  font-weight:700;
-}
-
-.status-dot{
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:#f59e0b;
-  box-shadow:0 0 15px #f59e0b;
-  animation:statusPulse 1.6s infinite;
-}
-
-@keyframes statusPulse{
-  0%,100%{
-    transform:scale(1);
-    opacity:1;
-  }
-  50%{
-    transform:scale(.65);
-    opacity:.45;
-  }
-}
-
-/* =========================
-   ICON
-========================= */
-
-.icon-wrap{
-  width:150px;
-  height:150px;
-  margin:0 auto 32px;
-  position:relative;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.icon-ring{
-  position:absolute;
-  inset:0;
-  border-radius:50%;
-  border:1px solid rgba(91,124,255,.25);
-  animation:ringRotate 12s linear infinite;
-}
-
-.icon-ring::before{
-  content:"";
-  position:absolute;
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  background:#5b7cff;
-  top:4px;
-  left:50%;
-  box-shadow:0 0 20px #5b7cff;
-}
-
-.icon-ring.two{
-  inset:14px;
-  border-color:rgba(139,92,246,.25);
-  animation-direction:reverse;
-  animation-duration:8s;
-}
-
-@keyframes ringRotate{
-  to{
-    transform:rotate(360deg);
-  }
-}
-
-.icon{
-  width:95px;
-  height:95px;
-  border-radius:30px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:44px;
-  background:
-    linear-gradient(
-      145deg,
-      rgba(91,124,255,.18),
-      rgba(139,92,246,.13)
-    );
-  border:1px solid rgba(255,255,255,.1);
-  box-shadow:
-    0 20px 60px rgba(91,124,255,.18),
-    inset 0 1px rgba(255,255,255,.15);
-  animation:iconFloat 4s ease-in-out infinite;
-}
-
-@keyframes iconFloat{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-8px)}
-}
-
-/* =========================
-   CONTENT
-========================= */
-
-.content{
-  position:relative;
-  z-index:3;
-  text-align:center;
-}
-
-h1{
-  font-size:clamp(32px,5vw,54px);
-  line-height:1.25;
-  font-weight:900;
-  letter-spacing:-1.8px;
-  margin-bottom:18px;
-}
-
-.gradient-text{
-  background:linear-gradient(
-    90deg,
-    #fff,
-    #a9baff,
-    #c4b5fd
-  );
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-}
-
-.description{
-  max-width:700px;
-  margin:auto;
-  color:#a7b3c7;
-  font-size:16px;
-  line-height:2.15;
-}
-
-.description strong{
-  color:#dbe7ff;
-  font-weight:800;
-}
-
-/* =========================
-   INFO CARDS
-========================= */
-
-.info-grid{
-  margin:40px auto 0;
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:13px;
-  max-width:760px;
-}
-
-.info{
-  padding:18px 15px;
-  border-radius:18px;
-  border:1px solid rgba(255,255,255,.065);
-  background:rgba(255,255,255,.025);
-  transition:.3s ease;
-}
-
-.info:hover{
-  transform:translateY(-4px);
-  border-color:rgba(91,124,255,.3);
-  background:rgba(91,124,255,.05);
-}
-
-.info-icon{
-  font-size:21px;
-  margin-bottom:7px;
-}
-
-.info-title{
-  font-size:13px;
-  color:#94a3b8;
-}
-
-.info-value{
-  font-size:14px;
-  font-weight:800;
-  margin-top:3px;
-}
-
-/* =========================
-   PROGRESS
-========================= */
-
-.progress-box{
-  max-width:760px;
-  margin:32px auto 0;
-  text-align:right;
-}
-
-.progress-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:10px;
-  color:#94a3b8;
-  font-size:12px;
-}
-
-.progress-head strong{
-  color:#cbd5e1;
-}
-
-.progress{
-  height:7px;
-  border-radius:20px;
-  background:rgba(255,255,255,.07);
-  overflow:hidden;
-}
-
-.progress-bar{
-  height:100%;
-  width:68%;
-  border-radius:20px;
-  background:
-    linear-gradient(
-      90deg,
-      #4f67ff,
-      #7c5cff,
-      #22d3ee
-    );
-  box-shadow:
-    0 0 20px rgba(91,124,255,.5);
-  position:relative;
-}
-
-.progress-bar::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(
-    90deg,
-    transparent,
-    rgba(255,255,255,.35),
-    transparent
-  );
-  animation:shine 2.5s infinite;
-}
-
-@keyframes shine{
-  from{transform:translateX(-100%)}
-  to{transform:translateX(100%)}
-}
-
-/* =========================
-   FOOTER
-========================= */
-
-.footer{
-  position:relative;
-  z-index:3;
-  margin-top:38px;
-  padding-top:25px;
-  border-top:1px solid rgba(255,255,255,.07);
-  text-align:center;
-  color:#64748b;
-  font-size:12px;
-  line-height:2;
-}
-
-.footer strong{
-  color:#94a3b8;
-}
-
-/* =========================
-   MOBILE
-========================= */
-
-@media(max-width:750px){
-
-  .page{
-    padding:18px 12px;
-  }
-
-  .card{
-    padding:40px 20px;
-    border-radius:27px;
-  }
-
-  .brand{
-    margin-bottom:18px;
-  }
-
-  .brand-logo{
-    width:42px;
-    height:42px;
-    font-size:20px;
-    border-radius:13px;
-  }
-
-  .brand-name{
-    font-size:18px;
-  }
-
-  .icon-wrap{
-    width:125px;
-    height:125px;
-    margin-bottom:25px;
-  }
-
-  .icon{
-    width:80px;
-    height:80px;
-    border-radius:25px;
-    font-size:36px;
-  }
-
-  h1{
-    font-size:31px;
-    letter-spacing:-1px;
-  }
-
-  .description{
-    font-size:14px;
-    line-height:2;
-  }
-
-  .info-grid{
-    grid-template-columns:1fr;
-    gap:9px;
-  }
-
-  .info{
-    display:flex;
-    align-items:center;
-    text-align:right;
-    gap:12px;
-    padding:13px;
-  }
-
-  .info-icon{
-    margin:0;
-  }
-
-  .info-title{
-    font-size:11px;
-  }
-
-  .info-value{
-    font-size:13px;
-  }
-
-  .progress-box{
-    margin-top:25px;
-  }
-}
-
-@media(max-width:380px){
-  h1{
-    font-size:27px;
-  }
-
-  .description{
-    font-size:13px;
-  }
-
-  .card{
-    padding:32px 16px;
-  }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ربط Telegram | مدار</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 430px;
+      background: white;
+      border-radius: 22px;
+      padding: 32px 25px;
+      text-align: center;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+    }
+
+    .telegram {
+      width: 85px;
+      height: 85px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      background: #229ed9;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 42px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      color: #222;
+      font-size: 27px;
+    }
+
+    p {
+      color: #666;
+      line-height: 1.8;
+      margin-bottom: 22px;
+    }
+
+    .code {
+      background: #f1f3f6;
+      padding: 14px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    button {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 13px;
+      background: #229ed9;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+
+    #status {
+      margin-top: 18px;
+      padding: 13px;
+      border-radius: 10px;
+      display: none;
+      line-height: 1.7;
+    }
+
+    .loading {
+      display: block !important;
+      background: #f1f3f6;
+      color: #555;
+    }
+
+    .success {
+      display: block !important;
+      background: #e8f8ee;
+      color: #16803c;
+    }
+
+    .error {
+      display: block !important;
+      background: #fff0f0;
+      color: #c62828;
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="background">
+  <div class="card">
 
-  <div class="grid"></div>
+    <div class="telegram">✈</div>
 
-  <div class="orb one"></div>
-  <div class="orb two"></div>
-  <div class="orb three"></div>
+    <h1>ربط Telegram</h1>
 
-  <div class="particles">
-    <span class="particle" style="left:8%;animation-duration:12s;animation-delay:-3s"></span>
-    <span class="particle" style="left:17%;animation-duration:16s;animation-delay:-8s"></span>
-    <span class="particle" style="left:29%;animation-duration:13s;animation-delay:-5s"></span>
-    <span class="particle" style="left:42%;animation-duration:18s;animation-delay:-12s"></span>
-    <span class="particle" style="left:55%;animation-duration:14s;animation-delay:-4s"></span>
-    <span class="particle" style="left:68%;animation-duration:17s;animation-delay:-10s"></span>
-    <span class="particle" style="left:81%;animation-duration:13s;animation-delay:-7s"></span>
-    <span class="particle" style="left:93%;animation-duration:19s;animation-delay:-15s"></span>
-  </div>
+    <p>
+      اربط حسابك في منصة مدار بحساب Telegram
+      لاستقبال الإشعارات والتنبيهات مباشرة.
+    </p>
 
-</div>
-
-
-<main class="page">
-
-  <div class="wrapper">
-
-    <!-- الهوية -->
-    <div class="brand">
-
-      <div class="brand-logo">م</div>
-
-      <div class="brand-name">
-        منصة <span>مدار</span> التعليمية
-      </div>
-
+    <div class="code">
+      حساب مدار:
+      <span id="userCode"></span>
     </div>
 
+    <button id="connectButton">
+      🔗 ربط حساب Telegram
+    </button>
 
-    <!-- البطاقة الرئيسية -->
-    <section class="card">
-
-      <div class="content">
-
-        <!-- الحالة -->
-        <div class="status">
-          <span class="status-dot"></span>
-          النظام قيد التطوير حاليًا
-        </div>
-
-
-        <!-- الأيقونة -->
-        <div class="icon-wrap">
-
-          <div class="icon-ring"></div>
-          <div class="icon-ring two"></div>
-
-          <div class="icon">
-            ⚙️
-          </div>
-
-        </div>
-
-
-        <!-- العنوان -->
-        <h1>
-          <span class="gradient-text">
-            المنصة تحت التطوير
-          </span>
-        </h1>
-
-
-        <!-- الرسالة -->
-        <p class="description">
-
-          لقد تم <strong>تعليق وصولك إلى منصة مدار التعليمية بشكل مؤقت</strong>
-          حتى يتم الانتهاء من أعمال التحديث والتطوير الحالية.
-
-          <br>
-
-          نعمل الآن على تحسين المنصة وتطوير عدد من الأقسام
-          والأنظمة الداخلية، وذلك بهدف تقديم تجربة تعليمية
-          أكثر استقرارًا وسرعة وجودة لجميع المستخدمين.
-
-          <br>
-
-          <strong>
-            لا يمكنك المتابعة إلى المنصة في الوقت الحالي.
-          </strong>
-
-          <br>
-
-          سيتم السماح بالوصول مرة أخرى فور الانتهاء من أعمال التطوير
-          وعودة المنصة للعمل بشكل طبيعي.
-
-        </p>
-
-
-        <!-- معلومات -->
-        <div class="info-grid">
-
-          <div class="info">
-            <div class="info-icon">🔧</div>
-            <div>
-              <div class="info-title">حالة النظام</div>
-              <div class="info-value">قيد التطوير</div>
-            </div>
-          </div>
-
-          <div class="info">
-            <div class="info-icon">🚀</div>
-            <div>
-              <div class="info-title">الهدف</div>
-              <div class="info-value">تجربة أفضل</div>
-            </div>
-          </div>
-
-          <div class="info">
-            <div class="info-icon">🔐</div>
-            <div>
-              <div class="info-title">الوصول</div>
-              <div class="info-value">موقوف مؤقتًا</div>
-            </div>
-          </div>
-
-        </div>
-
-
-        <!-- التقدم -->
-        <div class="progress-box">
-
-          <div class="progress-head">
-            <span>تقدم أعمال التطوير</span>
-            <strong>68%</strong>
-          </div>
-
-          <div class="progress">
-            <div class="progress-bar"></div>
-          </div>
-
-        </div>
-
-
-        <!-- الفوتر -->
-        <div class="footer">
-
-          نعتذر عن الإزعاج المؤقت، ونعمل على إعادتك إلى المنصة
-          في أقرب وقت ممكن.
-
-          <br>
-
-          <strong>منصة مدار التعليمية</strong>
-          — نبني تجربة تعليمية أفضل.
-
-        </div>
-
-      </div>
-
-    </section>
+    <div id="status"></div>
 
   </div>
 
-</main>
+
+  <script>
+
+    // ==========================================
+    // إعدادات التجربة
+    // ==========================================
+
+    const PLATFORM_USER_CODE = "MADAR-84721";
+
+    const PLATFORM_API_KEY =
+      "MadarPlatformAPI_2026_X7kP4mN8qR2vT6";
+
+    const API_URL =
+      "https://madar-telegram.vercel.app";
 
 
-<script>
-/* تأثير بسيط لتحريك البطاقة مع الماوس على الكمبيوتر */
-const card = document.querySelector(".card");
+    // ==========================================
+    // عناصر الصفحة
+    // ==========================================
 
-document.addEventListener("mousemove", e => {
+    const userCode =
+      document.getElementById("userCode");
 
-  if(window.innerWidth < 800) return;
+    const button =
+      document.getElementById("connectButton");
 
-  const x = (window.innerWidth / 2 - e.clientX) / 70;
-  const y = (window.innerHeight / 2 - e.clientY) / 70;
+    const status =
+      document.getElementById("status");
 
-  card.style.transform =
-    `perspective(1200px) rotateY(${x * -0.12}deg) rotateX(${y * 0.12}deg)`;
 
-});
+    userCode.textContent =
+      PLATFORM_USER_CODE;
 
-document.addEventListener("mouseleave", () => {
-  card.style.transform = "";
-});
-</script>
+
+    // ==========================================
+    // عرض الحالة
+    // ==========================================
+
+    function showStatus(message, type) {
+
+      status.textContent = message;
+
+      status.className = type;
+
+    }
+
+
+    // ==========================================
+    // إنشاء رابط Telegram
+    // ==========================================
+
+    button.addEventListener("click", async () => {
+
+      button.disabled = true;
+
+      showStatus(
+        "جاري إنشاء رابط Telegram...",
+        "loading"
+      );
+
+
+      try {
+
+        const response = await fetch(
+          API_URL + "/api/telegram/link-create",
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type": "application/json",
+
+              "Authorization":
+                "Bearer " + PLATFORM_API_KEY
+            },
+
+            body: JSON.stringify({
+              platform_user_code:
+                PLATFORM_USER_CODE
+            })
+          }
+        );
+
+
+        const data =
+          await response.json();
+
+
+        console.log("API Response:", data);
+
+
+        if (!response.ok || !data.success) {
+
+          throw new Error(
+            data.error ||
+            "فشل إنشاء رابط Telegram"
+          );
+
+        }
+
+
+        showStatus(
+          "تم إنشاء الرابط، جاري فتح Telegram...",
+          "success"
+        );
+
+
+        // فتح Telegram
+        window.location.href =
+          data.link_url;
+
+
+      } catch (error) {
+
+        console.error(error);
+
+
+        showStatus(
+          error.message ||
+          "حدث خطأ أثناء الاتصال بالخادم",
+          "error"
+        );
+
+
+        button.disabled = false;
+
+      }
+
+    });
+
+  </script>
 
 </body>
-      </html>
+</html>
