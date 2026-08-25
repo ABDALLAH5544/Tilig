@@ -3,314 +3,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اختبار API تليجرام - منصة مدار</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>إعدادات الحساب - ربط التليجرام</title>
     <style>
-        :root {
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
-            --bg: #f8fafc;
-            --card-bg: #ffffff;
-            --text: #1e293b;
-            --border: #e2e8f0;
-            --success: #16a34a;
-            --error: #dc2626;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Tajawal', sans-serif;
-        }
-
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 800px;
-            background: var(--card-bg);
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-            padding: 24px;
-            border: 1px solid var(--border);
-        }
-
-        h1 {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            color: var(--primary);
-            text-align: center;
-            border-bottom: 2px solid var(--border);
-            padding-bottom: 12px;
-        }
-
-        .config-box {
-            background: #f1f5f9;
-            padding: 16px;
-            border-radius: 8px;
-            margin-bottom: 24px;
-            border: 1px solid #cbd5e1;
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        .form-group label {
-            display: block;
-            font-weight: 500;
-            margin-bottom: 6px;
-            font-size: 0.9rem;
-        }
-
-        .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 0.95rem;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .form-group input:focus, .form-group textarea:focus {
-            border-color: var(--primary);
-        }
-
-        .actions {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 10px;
-            margin-bottom: 24px;
-        }
-
-        button {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 10px 14px;
-            border-radius: 6px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background 0.2s;
-            font-size: 0.9rem;
-        }
-
-        button:hover {
-            background: var(--primary-hover);
-        }
-
-        button.danger {
-            background: var(--error);
-        }
-
-        button.danger:hover {
-            background: #b91c1c;
-        }
-
-        button.secondary {
-            background: #475569;
-        }
-
-        button.secondary:hover {
-            background: #334155;
-        }
-
-        .response-box {
-            background: #0f172a;
-            color: #38bdf8;
-            padding: 16px;
-            border-radius: 8px;
-            font-family: monospace;
-            font-size: 0.85rem;
-            max-height: 250px;
-            overflow-y: auto;
-            direction: ltr;
-            text-align: left;
-            white-space: pre-wrap;
-            word-break: break-all;
-        }
-
-        .telegram-btn {
-            display: inline-block;
-            margin-top: 10px;
-            background: #0088cc;
-            color: white;
-            padding: 10px 16px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 500;
-            text-align: center;
-        }
-
-        .telegram-btn:hover {
-            background: #006699;
-        }
-
-        #linkContainer {
-            margin-top: 12px;
-            display: none;
-        }
+        body { font-family: sans-serif; padding: 20px; background: #f4f6f8; }
+        .card { max-width: 400px; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 14px; }
+        .form-group input { width: 100%; padding: 8px 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+        .btn { width: 100%; padding: 10px; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; margin-top: 10px; }
+        .btn-link { background: #229ED9; color: #fff; }
+        .btn-unlink { background: #e11d48; color: #fff; }
+        .status { margin-top: 15px; font-weight: bold; }
+        .status.linked { color: #16a34a; }
+        .status.unlinked { color: #dc2626; }
+        .generated-code { font-size: 12px; color: #666; margin-top: 5px; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>أداة اختبار API ربط التليجرام (مدار)</h1>
-
-    <!-- إعدادات الاتصال -->
-    <div class="config-box">
-        <div class="form-group">
-            <label>رابط الـ API الأساسي (Base URL)</label>
-            <input type="text" id="baseUrl" value="https://your-domain.vercel.app" placeholder="https://your-domain.vercel.app">
-        </div>
-        <div class="form-group">
-            <label>مفتاح الـ API (PLATFORM_API_KEY)</label>
-            <input type="password" id="apiKey" placeholder="أدخل مفتاح PLATFORM_API_KEY الخاص بك">
-        </div>
+<div class="card">
+    <h3>ربط حساب التليجرام</h3>
+    <p>أدخل اسمك ليصلك كود خاص ويتم ربطه بحساب التليجرام.</p>
+    
+    <!-- حقل إدخال الاسم -->
+    <div class="form-group" id="nameInputGroup">
+        <label for="userName">اسم المستخدم:</label>
+        <input type="text" id="userName" placeholder="أدخل اسمك هنا (مثال: أحمد)" oninput="updateUserCode()">
+        <div id="codePreview" class="generated-code"></div>
     </div>
 
-    <!-- كود المستخدم والرسالة -->
-    <div class="form-group">
-        <label>رمز المستخدم (Platform User Code)</label>
-        <input type="text" id="userCode" value="MADAR-84721" placeholder="مثال: MADAR-101">
-    </div>
-
-    <div class="form-group">
-        <label>الرسالة المراد إرسالها (اختباري)</label>
-        <textarea id="message" rows="2" placeholder="اكتب رسالة الإشعار هنا...">أهلاً بك! هذا إشعار تجريبي من منصة مدار.</textarea>
-    </div>
-
-    <!-- أزرار العمليات -->
-    <div class="actions">
-        <button onclick="createLink()">1. إنشاء رابط ربط</button>
-        <button onclick="checkStatus()" class="secondary">2. فحص حالة الربط</button>
-        <button onclick="sendMessage()">3. إرسال إشعار</button>
-        <button onclick="unlinkUser()" class="danger">4. فك الربط</button>
-    </div>
-
-    <!-- زر التليجرام المباشر -->
-    <div id="linkContainer">
-        <a id="telegramLink" href="#" target="_blank" class="telegram-btn">🚀 اضغط هنا للفتح في تليجرام للربط</a>
-    </div>
-
-    <!-- عرض الاستجابة -->
-    <div class="form-group" style="margin-top: 20px;">
-        <label>استجابة السيرفر (API Response):</label>
-        <div id="response" class="response-box">// اختر إحدى العمليات أعلاه للاختبار...</div>
+    <div id="statusBox" class="status unlinked">يرجى كتابة الاسم أولاً...</div>
+    
+    <div id="actionArea">
+        <button class="btn btn-link" onclick="startLinking()">ربط التليجرام الآن 🚀</button>
     </div>
 </div>
 
 <script>
-    function getHeaders() {
-        const apiKey = document.getElementById('apiKey').value.trim();
-        return {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${apiKey}`
-        };
-    }
+    const CONFIG = {
+        baseUrl: "https://madar-telegram.vercel.app", // رابط الـ Vercel
+        apiKey: "MadarPlatformAPI_2026_X7kP4mN8qR2vT6" // مفتاح PLATFORM_API_KEY
+    };
 
-    function getBaseUrl() {
-        let url = document.getElementById('baseUrl').value.trim();
-        if (url.endsWith('/')) {
-            url = url.slice(0, -1);
+    let currentUserCode = "";
+    let pollingInterval = null;
+
+    // دالة لتوليد كود مميز يعتمد على الاسم المكتوب
+    function generateCodeFromName(name) {
+        if (!name || !name.trim()) return "";
+        
+        // تنظيف الاسم وتحويله لصيغة صحيحة
+        const cleanName = name.trim().replace(/\s+/g, '-').toUpperCase();
+        
+        // جلب كود عشوائي سابق من الـ Storage أو إنشاء رقم فريد جديد
+        let randomId = localStorage.getItem("user_random_suffix");
+        if (!randomId) {
+            randomId = Math.floor(1000 + Math.random() * 9000); // رقم عشوائي مكون من 4 أرقام
+            localStorage.setItem("user_random_suffix", randomId);
         }
-        return url;
+
+        return `MADAR-${cleanName}-${randomId}`;
     }
 
-    function showResponse(data) {
-        document.getElementById('response').textContent = JSON.stringify(data, null, 2);
+    // تحديث الكود وتحديث الواجهة عند كتابة الاسم
+    function updateUserCode() {
+        const nameInput = document.getElementById("userName").value;
+        currentUserCode = generateCodeFromName(nameInput);
+        
+        const preview = document.getElementById("codePreview");
+        
+        if (currentUserCode) {
+            preview.innerText = `الكود المولد للحساب: ${currentUserCode}`;
+            checkStatus(); // فحص إذا كان الكود المولد مربوطاً من قبل
+        } else {
+            preview.innerText = "";
+            document.getElementById("statusBox").innerText = "يرجى كتابة الاسم أولاً...";
+        }
     }
 
-    // 1. إنشاء رابط الربط (يتحقق من الربط المسبق)
-    async function createLink() {
-        const baseUrl = getBaseUrl();
-        const userCode = document.getElementById('userCode').value.trim();
-        document.getElementById('linkContainer').style.display = 'none';
+    // فحص حالة الربط للكود الحالي
+    async function checkStatus() {
+        if (!currentUserCode) return;
 
         try {
-            const res = await fetch(`${baseUrl}/api/telegram/link-create`, {
-                method: 'POST',
-                headers: getHeaders(),
-                body: JSON.stringify({ platform_user_code: userCode })
+            const res = await fetch(`${CONFIG.baseUrl}/api/telegram/link-status?platform_user_code=${encodeURIComponent(currentUserCode)}`, {
+                method: "GET",
+                headers: { "Authorization": `Bearer ${CONFIG.apiKey}` }
             });
             const data = await res.json();
-            showResponse(data);
 
-            if (data.success && data.link_url) {
-                const tgBtn = document.getElementById('telegramLink');
-                tgBtn.href = data.link_url;
-                document.getElementById('linkContainer').style.display = 'block';
+            if (data.linked) {
+                renderLinkedState(data.telegram_username);
+            } else {
+                renderUnlinkedState();
             }
         } catch (err) {
-            showResponse({ error: 'Failed to connect', details: err.message });
+            document.getElementById("statusBox").innerText = "خطأ في الاتصال بالخدمة";
         }
     }
 
-    // 2. فحص حالة الربط
-    async function checkStatus() {
-        const baseUrl = getBaseUrl();
-        const userCode = document.getElementById('userCode').value.trim();
+    // طلب إنشاء رابط الربط
+    async function startLinking() {
+        if (!currentUserCode) {
+            alert("يرجى كتابة اسمك أولاً!");
+            return;
+        }
 
         try {
-            const res = await fetch(`${baseUrl}/api/telegram/link-status?platform_user_code=${encodeURIComponent(userCode)}`, {
-                method: 'GET',
-                headers: getHeaders()
+            const res = await fetch(`${CONFIG.baseUrl}/api/telegram/link-create`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${CONFIG.apiKey}`
+                },
+                body: JSON.stringify({ platform_user_code: currentUserCode })
             });
             const data = await res.json();
-            showResponse(data);
+
+            if (!data.success) {
+                if (data.error === "ALREADY_LINKED") {
+                    alert("هذا الحساب مربوط بالفعل!");
+                    renderLinkedState(data.telegram_username);
+                } else {
+                    alert("تعذر إنشاء الرابط: " + data.error);
+                }
+                return;
+            }
+
+            // فتح رابط تليجرام في نافذة جديدة
+            window.open(data.link_url, "_blank");
+
+            document.getElementById("statusBox").innerText = "⏳ في انتظار إتمام العملية داخل تليجرام...";
+            startPolling();
+
         } catch (err) {
-            showResponse({ error: 'Failed to connect', details: err.message });
+            alert("حدث خطأ أثناء الاتصال بالـ API");
         }
     }
 
-    // 3. إرسال إشعار
-    async function sendMessage() {
-        const baseUrl = getBaseUrl();
-        const userCode = document.getElementById('userCode').value.trim();
-        const msg = document.getElementById('message').value.trim();
+    // فك الربط
+    async function unlinkAccount() {
+        if (!currentUserCode) return;
+        if (!confirm("هل أنت تأكد من فك الربط؟")) return;
 
         try {
-            const res = await fetch(`${baseUrl}/api/telegram/send`, {
-                method: 'POST',
-                headers: getHeaders(),
-                body: JSON.stringify({
-                    platform_user_code: userCode,
-                    message: msg
-                })
+            const res = await fetch(`${CONFIG.baseUrl}/api/telegram/unlink`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${CONFIG.apiKey}`
+                },
+                body: JSON.stringify({ platform_user_code: currentUserCode })
             });
             const data = await res.json();
-            showResponse(data);
+
+            if (data.success) {
+                alert("تم فك الربط بنجاح");
+                renderUnlinkedState();
+            }
         } catch (err) {
-            showResponse({ error: 'Failed to connect', details: err.message });
+            alert("فشل فك الربط");
         }
     }
 
-    // 4. فك الربط
-    async function unlinkUser() {
-        const baseUrl = getBaseUrl();
-        const userCode = document.getElementById('userCode').value.trim();
-
-        try {
-            const res = await fetch(`${baseUrl}/api/telegram/unlink`, {
-                method: 'POST',
-                headers: getHeaders(),
-                body: JSON.stringify({ platform_user_code: userCode })
+    // متابعة حالة الربط بشكل دوري
+    function startPolling() {
+        if (pollingInterval) clearInterval(pollingInterval);
+        
+        pollingInterval = setInterval(async () => {
+            const res = await fetch(`${CONFIG.baseUrl}/api/telegram/link-status?platform_user_code=${encodeURIComponent(currentUserCode)}`, {
+                headers: { "Authorization": `Bearer ${CONFIG.apiKey}` }
             });
             const data = await res.json();
-            showResponse(data);
-        } catch (err) {
-            showResponse({ error: 'Failed to connect', details: err.message });
-        }
+
+            if (data.linked) {
+                clearInterval(pollingInterval);
+                alert("✅ تم الربط بنجاح!");
+                renderLinkedState(data.telegram_username);
+            }
+        }, 3000);
+    }
+
+    function renderLinkedState(username) {
+        const userText = username ? `@${username}` : "حسابك";
+        document.getElementById("statusBox").className = "status linked";
+        document.getElementById("statusBox").innerText = `🟢 الحساب مربوط بـ (${userText})`;
+        
+        document.getElementById("actionArea").innerHTML = `
+            <button class="btn btn-unlink" onclick="unlinkAccount()">فك ربط التليجرام</button>
+        `;
+    }
+
+    function renderUnlinkedState() {
+        document.getElementById("statusBox").className = "status unlinked";
+        document.getElementById("statusBox").innerText = "🔴 الحساب غير مربوط";
+        
+        document.getElementById("actionArea").innerHTML = `
+            <button class="btn btn-link" onclick="startLinking()">ربط التليجرام الآن 🚀</button>
+        `;
     }
 </script>
 
